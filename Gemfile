@@ -17,6 +17,7 @@ gem 'i18n-js', '3.5.1' # A library to provide the I18n translations on the Javas
 # Authentications & Authorizations
 gem 'devise' # Authentication solution for Rails with Warden
 gem 'pundit' # Minimal authorization through OO design and pure Ruby classes
+gem 'doorkeeper' # An OAuth 2 provider for Ruby on Rails
 
 # Assets
 gem 'webpacker', '4.0' # Transpile app-like JavaScript
