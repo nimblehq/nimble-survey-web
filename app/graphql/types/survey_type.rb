@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Types
-  class SurveyType < Types::BaseObject
+  class SurveyType < Types::Base::Object
     field :id, ID, null: false
     field :title, String, null: false
     field :description, String, null: false
