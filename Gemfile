@@ -14,6 +14,7 @@ gem 'sidekiq' # background processing for Ruby
 gem 'bootsnap', require: false # Reduces boot times through caching; required in config/boot.rb
 gem 'i18n-js', '3.5.1' # A library to provide the I18n translations on the Javascript
 gem 'fast_jsonapi' # A lightning fast JSON:API serializer for Ruby Objects
+gem 'graphql' # Support GraphQL
 
 # Authentications & Authorizations
 gem 'devise' # Authentication solution for Rails with Warden
@@ -37,6 +38,7 @@ group :development do
   gem 'spring' # Spring speeds up development by keeping your application running in the background.
   gem 'spring-commands-rspec' # This gem implements the rspec command for Spring.
   gem 'spring-watcher-listen', '2.0.1' # Makes Spring watch the filesystem for changes using Listen
+  gem 'graphiql-rails' #
 end
 
 group :development, :test do
