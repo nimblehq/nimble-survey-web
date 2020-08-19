@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  post '/graphql', to: 'graphql#execute'
-
   devise_for :users
   devise_scope :user do
     root to: 'devise/registrations#edit'
@@ -25,6 +23,8 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
+    post '/graphql', to: 'graphql#execute'
+
     namespace :v1 do
       devise_scope :user do
         resources :passwords, only: :create
