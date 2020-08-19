@@ -23,8 +23,6 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    post '/graphql', to: 'graphql#execute'
-
     namespace :v1 do
       devise_scope :user do
         resources :passwords, only: :create
@@ -34,6 +32,8 @@ Rails.application.routes.draw do
       resources :responses, only: :create
       resources :surveys, only: %i[index show]
       resource :users, only: :show, path: :me
+
+      post '/graphql', to: 'graphql#execute'
     end
   end
 end
