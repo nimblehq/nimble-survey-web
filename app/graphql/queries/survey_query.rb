@@ -2,8 +2,9 @@
 
 module Queries
   class SurveyQuery < BaseQuery
-    type [Types::SurveyType], null: false
     description 'Survey list'
+
+    type [Types::SurveyType], null: false
 
     def resolve
       Survey.all
