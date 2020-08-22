@@ -2,6 +2,6 @@
 
 module Types
   class QueryType < Types::Base::Object
-    field :surveys, resolver: Queries::SurveyQuery
+    field :surveys, resolver: Resolvers::SurveyResolver
   end
 end

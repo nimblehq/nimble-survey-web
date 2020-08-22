@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Queries
-  class SurveyQuery < BaseQuery
+module Resolvers
+  class SurveyResolver < BaseResolver
     description 'Survey list'
 
     type [Types::SurveyType], null: false
