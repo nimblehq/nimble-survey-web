@@ -29,11 +29,10 @@ Rails.application.routes.draw do
         resources :registrations, only: :create
       end
 
+      resources :graphql, only: :create
       resources :responses, only: :create
       resources :surveys, only: %i[index show]
       resource :users, only: :show, path: :me
-
-      post '/graphql', to: 'graphql#execute'
     end
   end
 end
