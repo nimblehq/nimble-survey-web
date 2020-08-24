@@ -2,12 +2,12 @@
 
 module Resolvers
   class SurveyResolver < BaseResolver
-    description 'Survey list'
+    description 'Survey details'
+    argument :id, ID, required: true
+    type Types::SurveyType, null: true
 
-    type [Types::SurveyType], null: false
-
-    def resolve
-      Survey.all
+    def resolve(id:)
+      Survey.find_by(id: id)
     end
   end
 end

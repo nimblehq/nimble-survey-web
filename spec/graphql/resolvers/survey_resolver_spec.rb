@@ -3,25 +3,43 @@
 require 'rails_helper'
 
 RSpec.describe Resolvers::SurveyResolver do
-  it 'returns all surveys' do
-    query_string = <<-GRAPHQL
-      query Surveys {
-        surveys {
-            id
-            title
-            description
+  context 'given a valid survey ID' do
+    it 'returns survey details' do
+      query_string = <<~GRAPHQL
+        query SurveyDetails {
+          survey(id: "d5de6a8f8f5f1cfe51bc") {
+              id
+              title
+              description
+          }
         }
-      }
-    GRAPHQL
+      GRAPHQL
 
-    result = NimbleSurveyWebSchema.execute(query_string, variables: {})
+      result = NimbleSurveyWebSchema.execute(query_string, variables: {})
 
-    surveys = result['data']['surveys']
-    expect(surveys).to be_an(Array)
+      survey = result['data']['survey']
+      expect(survey['id']).to be_present
+      expect(survey['title']).to be_present
+      expect(survey['description']).to be_present
+    end
+  end
 
-    survey = surveys.first
-    expect(survey['id']).to be_present
-    expect(survey['title']).to be_present
-    expect(survey['description']).to be_present
+  context 'given an invalid survey ID' do
+    it 'returns null' do
+      query_string = <<~GRAPHQL
+        query SurveyDetails {
+          survey(id: "invalid") {
+              id
+              title
+              description
+          }
+        }
+      GRAPHQL
+
+      result = NimbleSurveyWebSchema.execute(query_string, variables: {})
+
+      survey = result['data']['survey']
+      expect(survey).to be_nil
+    end
   end
 end
