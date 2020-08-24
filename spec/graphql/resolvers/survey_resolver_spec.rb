@@ -5,13 +5,13 @@ require 'rails_helper'
 RSpec.describe Resolvers::SurveyResolver do
   it 'returns all surveys' do
     query_string = <<-GRAPHQL
-    query Surveys {
-      surveys {
-          id
-          title
-          description
+      query Surveys {
+        surveys {
+            id
+            title
+            description
+        }
       }
-    }
     GRAPHQL
 
     result = NimbleSurveyWebSchema.execute(query_string, variables: {})

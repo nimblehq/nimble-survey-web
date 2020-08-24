@@ -23,22 +23,6 @@ module API
           }
         }
       end
-
-      def doorkeeper_unauthorized_render_options(error: nil)
-        return unless error
-
-        {
-          json: {
-            errors: [
-              {
-                source: error.state,
-                detail: error.description,
-                code: error.name
-              }.compact
-            ]
-          }
-        }
-      end
     end
   end
 end
