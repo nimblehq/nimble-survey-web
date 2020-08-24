@@ -9,9 +9,10 @@ module Types
     field :thank_email_below_threshold, String, null: true
     field :is_active, Boolean, null: true
     field :cover_image_url, String, null: true
-    field :created_at, String, null: true
-    field :active_at, String, null: true
-    field :inactive_at, String, null: true
-    field :type, String, null: true
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: true
+    field :active_at, GraphQL::Types::ISO8601DateTime, null: true
+    field :inactive_at, GraphQL::Types::ISO8601DateTime, null: true
+    field :survey_type, String, null: true, method: :type
+    field :questions, [Types::QuestionType], null: true
   end
 end
