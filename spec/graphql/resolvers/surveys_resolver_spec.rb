@@ -8,7 +8,7 @@ RSpec.describe Resolvers::SurveyResolver do
       query_string = <<~GRAPHQL
         query Surveys {
           surveys {
-            total_count
+            totalCount
             edges {
               node {
                 id
@@ -26,7 +26,7 @@ RSpec.describe Resolvers::SurveyResolver do
       result = NimbleSurveyWebSchema.execute(query_string, variables: {})
 
       surveys = result['data']['surveys']
-      expect(surveys['total_count']).to eq(20)
+      expect(surveys['totalCount']).to eq(20)
       expect(surveys['edges']).to be_an(Array)
       expect(surveys['edges'].size).to eq(20)
     end
@@ -35,7 +35,7 @@ RSpec.describe Resolvers::SurveyResolver do
       query_string = <<~GRAPHQL
         query Surveys {
           surveys {
-            total_count
+            totalCount
             edges {
               node {
                 id
@@ -67,7 +67,7 @@ RSpec.describe Resolvers::SurveyResolver do
       query_string = <<~GRAPHQL
         query Surveys {
           surveys(first: 2) {
-            total_count
+            totalCount
             edges {
               node {
                 id
@@ -85,7 +85,7 @@ RSpec.describe Resolvers::SurveyResolver do
       result = NimbleSurveyWebSchema.execute(query_string, variables: {})
 
       surveys = result['data']['surveys']
-      expect(surveys['total_count']).to eq(20)
+      expect(surveys['totalCount']).to eq(20)
       expect(surveys['edges']).to be_an(Array)
       expect(surveys['edges'].size).to eq(2)
     end
@@ -94,7 +94,7 @@ RSpec.describe Resolvers::SurveyResolver do
       query_string = <<~GRAPHQL
         query Surveys {
           surveys {
-            total_count
+            totalCount
             edges {
               node {
                 id
