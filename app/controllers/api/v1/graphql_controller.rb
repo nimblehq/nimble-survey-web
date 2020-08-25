@@ -5,10 +5,6 @@ module API
     class GraphqlController < ApplicationController
       def create
         render json: result
-      rescue StandardError => e
-        raise e unless Rails.env.development?
-
-        handle_error_in_development(e)
       end
 
       private
@@ -35,16 +31,6 @@ module API
         else
           raise ArgumentError, "Unexpected parameter: #{ambiguous_param}"
         end
-      end
-
-      def handle_error_in_development(exception)
-        logger.error exception.message
-        logger.error exception.backtrace.join("\n")
-
-        render json: {
-          errors: [{ message: exception.message, backtrace: exception.backtrace }],
-          data: {}
-        }, status: :internal_server_error
       end
     end
   end
