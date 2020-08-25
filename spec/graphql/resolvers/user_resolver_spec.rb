@@ -9,7 +9,7 @@ RSpec.describe Resolvers::UserResolver do
         profile {
           id
           email
-          avatar_url
+          avatarUrl
         }
       }
     GRAPHQL
@@ -22,6 +22,6 @@ RSpec.describe Resolvers::UserResolver do
 
     expect(profile['id']).to eq(user.id.to_s)
     expect(profile['email']).to eq(user.email)
-    expect(profile['avatar_url']).to eq(user.avatar_url)
+    expect(profile['avatarUrl']).to eq(user.avatar_url)
   end
 end
