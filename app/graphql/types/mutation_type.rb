@@ -2,6 +2,6 @@
 
 module Types
   class MutationType < Types::Base::Object
-    field :test, mutation: Mutations::TestMutation
+    field :create_response, mutation: Mutations::CreateResponseMutation
   end
 end
