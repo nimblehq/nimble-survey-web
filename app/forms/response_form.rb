@@ -22,7 +22,7 @@ class ResponseForm < ApplicationForm
   # Check if all submitted questions are contained in survey questions
   def validate_questions
     survey_questions_ids = survey.questions.map(&:id)
-    questions_ids = questions.map { |question| question.symbolize_keys[:id] }
+    questions_ids = questions.map { |question| question[:id] }
 
     return if (survey_questions_ids & questions_ids) == questions_ids
 
