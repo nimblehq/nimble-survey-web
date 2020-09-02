@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class GraphqlController < ActionController::API
+  include API::V1::DoorkeeperAuthentication
+
   def create
     render json: result
   end
