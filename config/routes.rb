@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     skip_controllers :tokens, :authorizations, :token_info, :authorized_applications
   end
 
+  resources :graphql, only: :create
+
   scope :api do
     scope :v1 do
       use_doorkeeper do
@@ -29,7 +31,6 @@ Rails.application.routes.draw do
         resources :registrations, only: :create
       end
 
-      resources :graphql, only: :create
       resources :responses, only: :create
       resources :surveys, only: %i[index show]
       resource :users, only: :show, path: :me
