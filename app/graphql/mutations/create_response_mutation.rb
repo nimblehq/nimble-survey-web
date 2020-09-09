@@ -6,7 +6,8 @@ module Mutations
 
     argument :response, Types::Inputs::ResponseInput, required: true
 
-    field :success, Boolean, null: false
+    field :survey, Types::SurveyType, null: false
+    field :questions, [Types::QuestionType], null: false
 
     def resolve(response:)
       response_form = ResponseForm.new(response)
@@ -14,7 +15,8 @@ module Mutations
       raise(GraphQL::ExecutionError, response_form.errors.full_messages.to_sentence) unless response_form.save
 
       {
-        success: true
+        survey: response_form.survey,
+        questions: response_form.questions
       }
     end
   end
