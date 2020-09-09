@@ -11,7 +11,13 @@ RSpec.describe Mutations::CreateResponseMutation do
             surveyId: 'd5de6a8f8f5f1cfe51bc',
             questions: [
               {
-                id: '940d229e4cd87cd1e202'
+                id: '940d229e4cd87cd1e202',
+                answers: [
+                  {
+                    id: '4cbc3e5a1c87d99bc7ee',
+                    answer: 'My answer'
+                  }
+                ]
               },
               {
                 id: 'c3a9b8ce5c2356010703',
@@ -31,7 +37,8 @@ RSpec.describe Mutations::CreateResponseMutation do
 
       create_response = result['data']['createResponse']
 
-      expect(create_response['success']).to eq(true)
+      expect(create_response['survey']).to be_present
+      expect(create_response['questions']).to be_present
     end
   end
 
@@ -62,7 +69,12 @@ RSpec.describe Mutations::CreateResponseMutation do
     <<-GRAPHQL
       mutation CreateResponse($input: CreateResponseMutationInput!){
         createResponse(input: $input){
-          success
+          survey {
+            id
+          }
+          questions {
+            id
+          }
         }
       }
     GRAPHQL
