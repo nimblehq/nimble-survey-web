@@ -25,10 +25,11 @@ services:
         - RUBY_ENV=production
         - NODE_ENV=production
         - ASSET_HOST
-        - MAILGUN_SMTP_PORT
-        - MAILGUN_SMTP_SERVER
-        - MAILGUN_SMTP_LOGIN
-        - MAILGUN_SMTP_PASSWORD
+        - MAILER_PORT
+        - MAILER_ADDRESS
+        - MAILER_USERNAME
+        - MAILER_PASSWORD
+        - MAILER_DOMAIN
         - APP_DOMAIN
         - BASIC_AUTHENTICATION_USERNAME
         - BASIC_AUTHENTICATION_PASSWORD

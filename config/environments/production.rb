@@ -72,12 +72,13 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
-    port: ENV.fetch('MAILGUN_SMTP_PORT'),
-    address: ENV.fetch('MAILGUN_SMTP_SERVER'),
-    user_name: ENV.fetch('MAILGUN_SMTP_LOGIN'),
-    password: ENV.fetch('MAILGUN_SMTP_PASSWORD'),
-    domain: ENV.fetch('APP_DOMAIN'),
+    port: ENV.fetch('MAILER_PORT'),
+    address: ENV.fetch('MAILER_ADDRESS'),
+    user_name: ENV.fetch('MAILER_USERNAME'),
+    password: ENV.fetch('MAILER_PASSWORD'),
+    domain: ENV.fetch('MAILER_DOMAIN'),
     authentication: :plain,
+    enable_starttls_auto: true
   }
 
   # Ignore bad email addresses and do not raise email delivery errors.
