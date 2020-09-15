@@ -10,4 +10,12 @@ class User < ApplicationRecord
            foreign_key: :resource_owner_id,
            inverse_of: :resource_owner,
            dependent: :delete_all
+
+  delegate :avatar_url, to: :user_decorator
+
+  private
+
+  def user_decorator
+    @user_decorator ||= UserDecorator.new(self)
+  end
 end
