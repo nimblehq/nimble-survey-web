@@ -19,11 +19,11 @@ module API
       def build_errors(detail:, source: nil, meta: nil, code: nil)
         [
           {
-            source: source,
+            source: { parameter: source }.compact,
             detail: detail,
             code: code,
             meta: meta
-          }.compact
+          }.delete_if { |_, value| value.blank? }
         ]
       end
     end

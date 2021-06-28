@@ -29,9 +29,7 @@ class Survey < ApplicationModel
 
   class << self
     def all
-      @all ||= begin
-        JSON.parse(File.read(Rails.root.join('lib', 'assets', 'surveys.json'))).map(&method(:new))
-      end
+      @all ||= JSON.parse(File.read(Rails.root.join('lib', 'assets', 'surveys.json'))).map(&method(:new))
     end
 
     def where(attributes = {})

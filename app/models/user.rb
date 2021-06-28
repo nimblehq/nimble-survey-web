@@ -8,10 +8,18 @@ class User < ApplicationRecord
   has_many :access_tokens,
            class_name: 'Doorkeeper::AccessToken',
            foreign_key: :resource_owner_id,
-           inverse_of: :resource_owner,
            dependent: :delete_all
 
   delegate :avatar_url, to: :user_decorator
+
+  def valid_attribute?(attribute_name)
+    valid?
+    errors[attribute_name].blank?
+  end
+
+  def name
+    self[:name].presence || Mail::Address.new(email).local.humanize
+  end
 
   private
 

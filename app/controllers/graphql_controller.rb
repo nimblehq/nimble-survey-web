@@ -30,4 +30,25 @@ class GraphqlController < ActionController::API
       raise ArgumentError, "Unexpected parameter: #{ambiguous_param}"
     end
   end
+
+  # :reek:FeatureEnvy
+  # rubocop:disable Metrics/MethodLength
+  def doorkeeper_unauthorized_render_options(error: nil)
+    return unless error
+
+    {
+      json: {
+        errors: [
+          {
+            message: error.description,
+            extensions: {
+              code: error.name,
+              state: error.state
+            }
+          }
+        ]
+      }
+    }
+  end
+  # rubocop:enable Metrics/MethodLength
 end

@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "errors": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "object",
+              "properties": {
+                "parameter": {
+                  "type": "string"
+                }
+              }
+            },
+            "detail": {
+              "type": "string"
+            },
+            "code": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source",
+            "detail",
+            "code"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "errors"
+  ]
+}

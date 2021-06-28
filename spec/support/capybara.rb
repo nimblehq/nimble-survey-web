@@ -28,6 +28,10 @@ Capybara.register_driver(:headless_chrome) do |app|
   # Because the user namespace is not enabled in the container by default
   options.add_argument('no-sandbox')
 
+  # Disable GPU usage
+  # https://thoughtbot.com/blog/headless-feature-specs-with-chrome#capybara-configuration
+  options.add_argument('disable-gpu')
+
   # Run headless by default unless CHROME_HEADLESS specified
   options.add_argument('headless') unless ENV['CHROME_HEADLESS'] =~ /^(false|no|0)$/i
 

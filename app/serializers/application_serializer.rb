@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationSerializer
-  include FastJsonapi::ObjectSerializer
+  include JSONAPI::Serializer
   include Lookup
 end

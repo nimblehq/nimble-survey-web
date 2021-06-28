@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class UserDecorator < SimpleDelegator
-  AVATAR_URL_FORMAT = 'https://api.adorable.io/avatar/%{email}'
-
   def avatar_url
-    format(AVATAR_URL_FORMAT, email: email)
+    gravatar_id = Digest::MD5.hexdigest(email)
+    "https://secure.gravatar.com/avatar/#{gravatar_id}"
   end
 end

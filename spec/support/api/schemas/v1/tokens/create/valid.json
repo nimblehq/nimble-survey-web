@@ -14,20 +14,28 @@
         "attributes": {
           "type": "object",
           "properties": {
-            "email": {
+            "access_token": {
               "type": "string"
             },
-            "name": {
+            "token_type": {
               "type": "string"
             },
-            "avatar_url": {
+            "expires_in": {
+              "type": "integer"
+            },
+            "refresh_token": {
               "type": "string"
+            },
+            "created_at": {
+              "type": "integer"
             }
           },
           "required": [
-            "email",
-            "name",
-            "avatar_url"
+            "access_token",
+            "token_type",
+            "expires_in",
+            "refresh_token",
+            "created_at"
           ]
         }
       },

@@ -8,22 +8,24 @@ on:
 
 jobs:
   docker_production_test:
-    name: Docker production test
+    name: Test production docker image
     runs-on: ubuntu-latest
     env:
       DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
       DOCKER_IMAGE: ${{ github.repository }}
     steps:
       - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.5.0
+        uses: styfle/cancel-workflow-action@0.6.0
         with:
           access_token: ${{ github.token }}
 
-      - uses: actions/checkout@v2.3.2
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
 
-      - uses: nimblehq/branch-tag-action@v1.1
+      - name: Set BRANCH_TAG
+        uses: nimblehq/branch-tag-action@v1.2
 
-      - name: Docker build production
+      - name: Try building Docker image
         run: |
           bin/docker-prepare
           docker-compose build

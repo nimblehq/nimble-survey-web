@@ -30,7 +30,7 @@ module Associations
       # To prevent `class_attribute` to override value on parent class, use merge to write the Hash-based attribute
       # https://apidock.com/rails/Class/class_attribute#1332-To-use-class-attribute-with-a-hash
       # :reek:LongParameterList { max_params: 5 }
-      def association(name, klass:, type: ActiveModel::Type::Value.new, relation:, **options)
+      def association(name, klass:, relation:, type: ActiveModel::Type::Value.new, **options)
         attribute(name, type, **options)
         self.associations = associations.merge(name => klass)
         relation_associations = public_send("#{relation}_associations").merge(name => klass)

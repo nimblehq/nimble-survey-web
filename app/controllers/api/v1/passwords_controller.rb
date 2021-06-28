@@ -6,10 +6,14 @@ module API
       include API::V1::OauthApplicationVerifiable
 
       def create
-        super do
-          render json: {
-            meta: { message: t('devise.passwords.send_paranoid_instructions') }
-          }
+        super do |user|
+          if user.valid_attribute?(:email)
+            render json: {
+              meta: { message: t('devise.passwords.send_paranoid_instructions') }
+            }
+          else
+            render_error(detail: user.errors.full_messages_for(:email).first)
+          end
 
           # Skip other stuff from devise
           return

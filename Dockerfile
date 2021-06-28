@@ -34,7 +34,7 @@ ENV BUILD_ENV=$BUILD_ENV \
 
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends apt-transport-https curl gnupg net-tools && \
-    apt-get install -y --no-install-recommends build-essential libpq-dev && \
+    apt-get install -y --no-install-recommends build-essential libpq-dev shared-mime-info && \
     apt-get install -y --no-install-recommends rsync locales chrpath pkg-config libfreetype6 libfontconfig1 git cmake wget unzip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
