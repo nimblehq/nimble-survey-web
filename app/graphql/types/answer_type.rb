@@ -3,7 +3,7 @@
 module Types
   class AnswerType < Types::Base::Object
     field :id, ID, null: false
-    field :text, String, null: false
+    field :text, String, null: true
     field :help_text, String, null: true
     field :input_mask_placeholder, String, null: true
     field :short_text, String, null: true
