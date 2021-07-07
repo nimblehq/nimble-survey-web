@@ -54,4 +54,4 @@ directories:
 
 # Directories below will not be scanned at all
 exclude_paths:
-  - spec/support/
+  - spec/support
