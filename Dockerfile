@@ -103,7 +103,8 @@ RUN rm -rf tmp/docker
 
 # Compile assets
 RUN bundle exec rails i18n:js:export && \
-    bundle exec rails assets:precompile
+    bundle exec rails assets:precompile && \
+    yarn run build:docs
 
 EXPOSE $PORT
 

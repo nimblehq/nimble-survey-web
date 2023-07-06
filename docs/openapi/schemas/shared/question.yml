@@ -1,0 +1,70 @@
+---
+type: object
+description: A question object
+properties:
+  text:
+    type: string
+    description: The text of the question
+  help_text:
+    type: string
+    description: The help text of the question
+    nullable: true
+  display_order:
+    type: integer
+    description: The display order of the question
+  short_text:
+    type: string
+    description: The short text of the question
+  pick:
+    type: string
+    description: The pick type of the question
+  display_type:
+    type: string
+    description: The display type of the question
+  is_mandatory:
+    type: boolean
+    description: The mandatory status of the question
+  correct_answer_id:
+    type: string
+    description: The correct answer id of the question
+    nullable: true
+  facebook_profile:
+    type: string
+    description: The facebook profile of the question
+    nullable: true
+  twitter_profile:
+    type: string
+    description: The twitter profile of the question
+    nullable: true
+  image_url:
+    type: string
+    description: The image url of the question
+    nullable: true
+  cover_image_url:
+    type: string
+    description: The cover image url of the question
+    nullable: true
+  cover_image_opacity:
+    type: number
+    description: The cover image opacity of the question
+  cover_background_color:
+    type: string
+    description: The cover background color of the question
+    nullable: true
+  is_shareable_on_facebook:
+    type: boolean
+    description: The shareable on facebook status of the question
+  is_shareable_on_twitter:
+    type: boolean
+    description: The shareable on twitter status of the question
+  font_face:
+    type: string
+    description: The font face of the question
+    nullable: true
+  font_size:
+    type: string
+    description: The font size of the question
+    nullable: true
+  tag_list:
+    type: string
+    description: The tag list of the question

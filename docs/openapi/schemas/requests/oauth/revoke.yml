@@ -1,0 +1,24 @@
+---
+type: object
+
+description: |-
+  A request body for refresh a new token
+
+required:
+  - token
+  - client_id
+  - client_secret
+
+properties:
+  token:
+    type: string
+    description: The current access token.
+    example: t9KR8HoiJXZfdfs5vVB1PKwjg7m7ynvXBrUkpUyxYkU
+  client_id:
+    type: string
+    description: The Client ID of the application requesting an access token.
+    example: ly1nj6n11vionaie65emwzk575hnnmrk
+  client_secret:
+    type: string
+    description: The client secret of the application requesting an access token.
+    example: hOzsTeFlT6ko0dme22uGbQal04SBPYc1

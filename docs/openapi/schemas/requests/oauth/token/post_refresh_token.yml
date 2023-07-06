@@ -1,0 +1,41 @@
+---
+type: object
+
+description: |-
+  A request body for refresh a new token
+
+required:
+  - grant_type
+  - refresh_token
+  - client_id
+  - client_secret
+
+properties:
+  grant_type:
+    type: string
+    example: refresh_token
+    description: |-
+      The type of request being made, either using a client-side obtained
+      authorization code, a refresh token, a JWT assertion, client credentials
+      grant or another access token for the purpose of downscoping a token. In this API, please use `refresh_token`
+  refresh_token:
+    type: string
+    description: |-
+      The refresh token of the user requesting an access token.
+
+      Used in combination with `refresh_token` as the `grant_type`.
+    example: t9KR8HoiJXZfdfs5vVB1PKwjg7m7ynvXBrUkpUyxYkU
+  client_id:
+    type: string
+    description: |-
+      The Client ID of the application requesting an access token.
+
+      Used in combination with `refresh_token` as the `grant_type`.
+    example: ly1nj6n11vionaie65emwzk575hnnmrk
+  client_secret:
+    type: string
+    description: |-
+      The client secret of the application requesting an access token.
+
+      Used in combination with `refresh_token` as the `grant_type`.
+    example: hOzsTeFlT6ko0dme22uGbQal04SBPYc1

@@ -1,0 +1,21 @@
+---
+post:
+  tags:
+    - Authentication
+  security: []
+  summary: Logout
+  description: Revoke the access token.
+  requestBody:
+    required: true
+    description: A request body for revoking the access token.
+    content:
+      application/json:
+        schema:
+          $ref: '../../schemas.yml#/requests_oauth_revoke'
+
+  responses:
+    '200':
+      description: OK
+
+    default:
+      $ref: '../../responses.yml#/responses_default_error'

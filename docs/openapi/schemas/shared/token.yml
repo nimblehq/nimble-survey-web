@@ -1,0 +1,25 @@
+---
+type: object
+description: A request for a new OAuth 2.0 token
+properties:
+  access_token:
+    type: string
+    description: The access token
+  token_type:
+    type: string
+    description: The token type
+  expires_in:
+    type: integer
+    description: The token expiry time in seconds
+  refresh_token:
+    type: string
+    description: The refresh token
+  created_at:
+    type: integer
+    description: The token creation time in seconds
+example:
+  access_token: 123-f2i0CG6MDsf-wJE9FyYrhSGAOtxBkhYWDI
+  token_type: Bearer
+  expires_in: 7200
+  refresh_token: l27GNT0kmkPbnEaUxniXyu4cHfPyWFr00kZTX5oWKA6c
+  created_at: 1681974651

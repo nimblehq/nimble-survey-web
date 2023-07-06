@@ -1,0 +1,21 @@
+---
+get:
+  tags:
+    - User
+  security:
+    - BearerAuth: []
+  summary: Get the user profile
+  description: Call this API to get the data of the user profile
+
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas.yml#/responses_me'
+          examples:
+            $ref: '../examples/responses/me.json'
+
+    default:
+      $ref: '../responses.yml#/responses_default_error'

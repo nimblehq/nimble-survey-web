@@ -21,6 +21,15 @@ services:
     volumes:
       - redis_data:/data
 
+  prism:
+    image: stoplight/prism:4
+    container_name: nimble_survey_web_prism
+    command: 'mock -h 0.0.0.0 /docs/openapi/openapi.yml'
+    volumes:
+      - ./docs:/docs
+    ports:
+      - "4010:4010"
+
 volumes:
   postgres_data:
   redis_data:

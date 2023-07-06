@@ -1,0 +1,24 @@
+---
+post:
+  tags:
+    - Surveys
+  security:
+    - BearerAuth: []
+  summary: Submit survey responses
+  description: |-
+    After the user fills out the survey, the frontend system will call this API to submit the survey responses to the backend system.
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas.yml#/requests_responses'
+        examples:
+          $ref: '../examples/requests/responses.json'
+
+  responses:
+    '201':
+      description: Created
+    default:
+      $ref: '../responses.yml#/responses_default_error'

@@ -1,0 +1,73 @@
+---
+type: object
+description: A answer object
+properties:
+  text:
+    type: string
+    description: The text of the answer
+  help_text:
+    type: string
+    description: The help text of the answer
+    nullable: true
+  input_mask_placeholder:
+    type: string
+    description: The input mask placeholder of the answer
+    nullable: true
+  short_text:
+    type: string
+    description: The short text of the answer
+    nullable: true
+  is_mandatory:
+    type: boolean
+    description: The mandatory status of the answer
+  is_customer_first_name:
+    type: boolean
+    description: The customer first name status of the answer
+  is_customer_last_name:
+    type: boolean
+    description: The customer last name status of the answer
+  is_customer_title:
+    type: boolean
+    description: The customer title status of the answer
+  is_customer_email:
+    type: boolean
+    description: The customer email status of the answer
+  prompt_custom_answer:
+    type: boolean
+    description: The prompt custom answer status of the answer
+  weight:
+    type: integer
+    description: The weight of the answer
+    nullable: true
+  display_order:
+    type: integer
+    description: The display order of the answer
+  display_type:
+    type: string
+    description: The display type of the answer
+  input_mask:
+    type: string
+    description: The input mask of the answer
+    nullable: true
+  date_constraint:
+    type: string
+    description: The date constraint of the answer
+    nullable: true
+  default_value:
+    type: string
+    description: The default value of the answer
+    nullable: true
+  response_class:
+    type: string
+    description: The response class of the answer
+  reference_identifier:
+    type: string
+    description: The reference identifier of the answer
+    nullable: true
+  score:
+    type: integer
+    description: The score of the answer
+    nullable: true
+  alerts:
+    type: array
+    description: The alerts of the answer

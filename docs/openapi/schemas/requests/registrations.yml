@@ -1,0 +1,48 @@
+---
+type: object
+
+description: A request body for registrations
+
+required:
+  - user
+  - client_id
+  - client_secret
+
+properties:
+  user:
+    type: object
+    description: The user object
+    required:
+      - email
+      - name
+      - password
+      - password_confirmation
+    properties:
+        email:
+          type: string
+          description: The email of the user.
+          example: example@nimblehq.co
+        name:
+          type: string
+          description: The name of the user.
+          example: John Doe
+        password:
+          type: string
+          description: The password of the user.
+          example: "12345678"
+        password_confirmation:
+          type: string
+          description: The password confirmation of the user.
+          example: "12345678"
+  client_id:
+    type: string
+    description: |-
+      The Client ID of the application requesting an access token.
+      Used in combination with `password` as the `grant_type`.
+    example: ly1nj6n11vionaie65emwzk575hnnmrk
+  client_secret:
+    type: string
+    description: |-
+      The client secret of the application requesting an access token.
+      Used in combination with `password` as the `grant_type`.
+    example: hOzsTeFlT6ko0dme22uGbQal04SBPYc1

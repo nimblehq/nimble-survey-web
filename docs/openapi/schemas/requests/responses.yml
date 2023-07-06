@@ -1,0 +1,38 @@
+---
+type: object
+
+description: A request body (schema) for survey responses
+
+required:
+  - survey_id
+  - questions
+
+properties:
+  survey_id:
+    type: string
+    description: The survey id that the user is filling out.
+  questions:
+    type: array
+    description: The list of questions that the user is filling out.
+    items:
+      type: object
+      description: The question object that contains id and list of answers.
+      properties:
+        id:
+          type: string
+          description: The question id that the user is filling out.
+        answers:
+          type: array
+          description: The list of answers that the user is filling out for the question.
+          minItems: 1
+          items:
+            type: object
+            description: The answer object that contains id and answer.
+            properties:
+              id:
+                type: string
+                description: The answer id that the user is filling out.
+              answer:
+                type: string
+                nullable: true
+                description: The answer that the user is filling out. This can be null if the answer does not have any text input.

@@ -1,0 +1,21 @@
+---
+type: object
+
+description: |-
+  A response body for a new OAuth 2.0 token
+
+properties:
+  data:
+    type: object
+    description: The data object
+    properties:
+      id:
+        type: string
+        description: The identifier of the access token
+        example: "123"
+      type:
+        type: string
+        description: The type of the access token
+        example: 'token'
+      attributes:
+        $ref: '../../../schemas.yml#/token'

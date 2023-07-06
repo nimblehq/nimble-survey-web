@@ -1,0 +1,34 @@
+---
+get:
+  tags:
+    - Surveys
+  security:
+    - BearerAuth: []
+  summary: Get the survey list
+  description: Call this API to get the data of a list of survey
+  parameters:
+    - in: query
+      name: page[number]
+      schema:
+        type: integer
+      description: The page number of the survey list.
+      example: 1
+    - in: query
+      name: page[size]
+      schema:
+        type: integer
+      description: The page size of the survey list that client side expects to get.
+      example: 10
+
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas.yml#/responses_surveys'
+          examples:
+            $ref: '../examples/surveys.json'
+
+    default:
+      $ref: '../responses.yml#/responses_default_error'

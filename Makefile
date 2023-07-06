@@ -12,6 +12,7 @@ env/start:
 
 env/setup:
 	make env/start
+	make doc/generate
 	rails db:setup
 	rails i18n:js:export
 
@@ -20,6 +21,9 @@ env/stop:
 
 env/teardown:
 	./bin/envteardown.sh
+
+doc/generate:
+	yarn run build:docs
 
 dev:
 	make env/start

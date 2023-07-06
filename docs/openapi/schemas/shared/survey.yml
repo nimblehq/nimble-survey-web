@@ -1,0 +1,36 @@
+---
+type: object
+description: A survey object
+properties:
+  title:
+    type: string
+    description: The title of the survey
+  description:
+    type: string
+    description: The description of the survey
+  thank_email_above_threshold:
+    type: string
+    description: The thank you email above threshold
+  thank_email_below_threshold:
+    type: string
+    description: The thank you email below threshold
+  is_active:
+    type: boolean
+    description: The status of the survey
+  cover_image_url:
+    type: string
+    description: The cover image url of the survey
+  created_at:
+    type: string
+    description: The creation time of the survey
+  active_at:
+    type: string
+    description: The active time of the survey
+    nullable: true
+  inactive_at:
+    type: string
+    description: The inactive time of the survey
+    nullable: true
+  survey_type:
+    type: string
+    description: The type of the survey

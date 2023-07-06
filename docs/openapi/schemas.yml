@@ -1,0 +1,51 @@
+---
+#### REQUESTS ####
+
+requests_oauth_token_post_password:
+  $ref: "schemas/requests/oauth/token/post_password.yml"
+
+requests_oauth_token_post_refresh_token:
+  $ref: "schemas/requests/oauth/token/post_refresh_token.yml"
+
+requests_oauth_revoke:
+  $ref: "schemas/requests/oauth/revoke.yml"
+
+requests_registrations:
+  $ref: "schemas/requests/registrations.yml"
+
+requests_password:
+  $ref: "schemas/requests/password.yml"
+
+requests_responses:
+  $ref: "schemas/requests/responses.yml"
+
+#### RESPONSES ####
+
+responses_oauth_token:
+  $ref: "schemas/responses/oauth/token.yml"
+
+responses_surveys:
+  $ref: "schemas/responses/surveys.yml"
+
+responses_surveys_id:
+  $ref: "schemas/responses/surveys_id.yml"
+
+responses_me:
+  $ref: "schemas/responses/me.yml"
+
+#### REUSABLE SCHEMAS ####
+
+error:
+  $ref: "schemas/shared/error.yml"
+
+token:
+  $ref: "schemas/shared/token.yml"
+
+survey:
+  $ref: "schemas/shared/survey.yml"
+
+question:
+  $ref: "schemas/shared/question.yml"
+
+answer:
+  $ref: "schemas/shared/answer.yml"

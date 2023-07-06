@@ -1,0 +1,79 @@
+---
+type: object
+
+description: |-
+  A response body for a survey object
+
+properties:
+  data:
+    type: object
+    description: The data object that contains a survey object
+    properties:
+      id:
+        type: string
+        example: d5de6a8f8f5f1cfe51bc
+      type:
+        type: string
+        example: survey
+      attributes:
+        $ref: '../../schemas.yml#/survey'
+      relationships:
+        type: object
+        properties:
+          questions:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: d3afbcf2b1d60af845dc
+                    type:
+                      type: string
+                      example: question
+      included:
+        type: array
+        items:
+          anyOf:
+            - type: object
+              description: The question object
+              properties:
+                id:
+                  type: string
+                  example: d3afbcf2b1d60af845dc
+                type:
+                  type: string
+                  example: question
+                attributes:
+                  $ref: '../../schemas.yml#/question'
+                relationships:
+                  type: object
+                  properties:
+                    answers:
+                      type: object
+                      properties:
+                        data:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                example: 3ffc938a273e45b27109
+                              type:
+                                type: string
+                                example: answer
+            - type: object
+              description: The answer object
+              properties:
+                id:
+                  type: string
+                  example: 3ffc938a273e45b27109
+                type:
+                  type: string
+                  example: answer
+                attributes:
+                  $ref: '../../schemas.yml#/answer'

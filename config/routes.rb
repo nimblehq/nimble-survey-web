@@ -35,5 +35,9 @@ Rails.application.routes.draw do
       resources :surveys, only: %i[index show]
       resource :users, only: :show, path: :me
     end
+
+    namespace :docs do
+      get '/openapi', to: 'openapi#show'
+    end
   end
 end
