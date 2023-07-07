@@ -1,0 +1,18 @@
+# fly.toml app configuration file generated for nimble-survey-web-mock on 2023-07-06T16:37:17+07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "nimble-survey-web-mock"
+primary_region = "sin"
+
+[build]
+  dockerfile = "Dockerfile.mock"
+
+[http_service]
+  internal_port = 80
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
