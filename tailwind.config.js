@@ -1,7 +1,9 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
-  purge: [],
+  purge: [
+    './app/views/**/*.html.*'
+  ],
   theme: {
     extend: {
       borderRadius: {
