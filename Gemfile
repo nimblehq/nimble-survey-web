@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '3.2.2'
 
 # Backend
-gem 'rails', '7.0.4.3' # Latest stable
+gem 'rails', '7.0.7' # Latest stable
 gem 'pg' # Use Postgresql as database
 gem 'puma' # Use Puma as the app server
 gem 'mini_magick' # A ruby wrapper for ImageMagick or GraphicsMagick command line
