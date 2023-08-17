@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '3.0.6'
+ruby '3.2.2'
 
 # Backend
 gem 'rails', '7.0.4.3' # Latest stable
@@ -49,7 +49,7 @@ end
 
 group :development, :test do
   gem 'bullet' # help to kill N+1 queries and unused eager loading
-  gem 'figaro' # Simple Rails app configuration
+  gem 'figjam' # ENV configuration for ruby using yaml files
   gem 'pry-rails' # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug' # Step by step debugging and stack navigation in Pry
   gem 'listen' # Listens to file modifications

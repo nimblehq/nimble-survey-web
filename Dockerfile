@@ -1,4 +1,4 @@
-FROM ruby:3.0.6-slim
+FROM ruby:3.2.2-slim
 
 ARG BUILD_ENV=development
 ARG RUBY_ENV=development
