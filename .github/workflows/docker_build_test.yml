@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set BRANCH_TAG
-        uses: nimblehq/branch-tag-action@v1.3.0
+        uses: nimblehq/branch-tag-action@v1
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
