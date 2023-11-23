@@ -1,4 +1,4 @@
-FROM ruby:3.0.6-slim
+FROM ruby:3.0.6-slim-buster AS builder
 
 ARG BUILD_ENV=development
 ARG RUBY_ENV=development
@@ -43,9 +43,14 @@ RUN apt-get update -qq && \
 # Add the PPA (personal package archive) maintained by NodeSource
 # This will have more up-to-date versions of Node.js than the official Debian repositories
 ADD https://dl.yarnpkg.com/debian/pubkey.gpg /tmp/yarn-pubkey.gpg
+
 RUN apt-key add /tmp/yarn-pubkey.gpg && rm /tmp/yarn-pubkey.gpg && \
     echo "deb http://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list && \
-    curl -sL https://deb.nodesource.com/setup_"$NODE_VERSION".x | bash - && \
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
+    | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg; \
+    NODE_MAJOR=$NODE_VERSION; \
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" \
+    > /etc/apt/sources.list.d/nodesource.list; \
     apt-get update -qq && \
     apt-get install -y --no-install-recommends nodejs yarn && \
     apt-get clean && \
@@ -78,6 +83,12 @@ RUN mkdir -p /usr/local/etc \
     } >> /usr/local/etc/gemrc
 
 # Copy all denpendencies from app and engines into tmp/docker to install
+FROM ruby:3.0.6-slim-buster AS bundler
+
+WORKDIR $APP_HOME
+
+RUN ./bin/docker-prepare
+
 COPY tmp/docker ./
 
 # Install Ruby gems
@@ -91,20 +102,33 @@ RUN gem install bundler && \
     bundle install
 
 # Install JS dependencies
+FROM ruby:3.0.6-slim-buster AS yarn
+
+WORKDIR $APP_HOME
+
 COPY package.json yarn.lock .yarnrc ./
+
 RUN yarn install --network-timeout 100000
+
+# Compile assets
+FROM ruby:3.0.6-slim-buster AS assets
+
+WORKDIR $APP_HOME
+
+RUN bundle exec rails i18n:js:export && \
+    bundle exec rails assets:precompile && \
+    yarn run build:docs
 
 # Copying the app files must be placed after the dependencies setup
 # since the app files always change thus cannot be cached
-COPY . ./
+FROM ruby:3.0.6-slim-buster AS app
+
+WORKDIR $APP_HOME
 
 # Remove tmp/docker in the final image
 RUN rm -rf tmp/docker
 
-# Compile assets
-RUN bundle exec rails i18n:js:export && \
-    bundle exec rails assets:precompile && \
-    yarn run build:docs
+COPY . ./
 
 EXPOSE $PORT
 
