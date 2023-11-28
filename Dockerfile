@@ -1,4 +1,6 @@
-FROM ruby:3.0.6-slim-buster AS builder
+ARG RUBY_VERSION=3.0.6
+
+FROM ruby:$RUBY_VERSION-slim as base
 
 ARG BUILD_ENV=development
 ARG RUBY_ENV=development
@@ -26,12 +28,18 @@ ENV BUILD_ENV=$BUILD_ENV \
     APP_HOME=/nimble_survey_web \
     PORT=80 \
     BUNDLE_JOBS=4 \
-    BUNDLE_PATH="/bundle" \
-    NODE_VERSION="18" \
+    BUNDLE_PATH="/usr/local/bundle" \
+    NODE_VERSION=18 \
     LANG="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8" \
     LANGUAGE="en_US:en"
 
+# Throw-away build stage to reduce size of final image
+FROM base as builder
+
+WORKDIR /tmp
+
+# Install packages needed to build gems
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends apt-transport-https curl gnupg net-tools && \
     apt-get install -y --no-install-recommends build-essential libpq-dev shared-mime-info && \
@@ -39,39 +47,14 @@ RUN apt-get update -qq && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Add Yarn repository
-# Add the PPA (personal package archive) maintained by NodeSource
-# This will have more up-to-date versions of Node.js than the official Debian repositories
-ADD https://dl.yarnpkg.com/debian/pubkey.gpg /tmp/yarn-pubkey.gpg
-
-RUN apt-key add /tmp/yarn-pubkey.gpg && rm /tmp/yarn-pubkey.gpg && \
-    echo "deb http://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list && \
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
-    | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg; \
-    NODE_MAJOR=$NODE_VERSION; \
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" \
-    > /etc/apt/sources.list.d/nodesource.list; \
-    apt-get update -qq && \
-    apt-get install -y --no-install-recommends nodejs yarn && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-# Set up the Chrome PPA and install Chrome Headless
-RUN if [ "$BUILD_ENV" = "test" ]; then \
-    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
-    echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list.d/google-chrome.list && \
-    apt-get update -qq && \
-    apt-get install -y --no-install-recommends google-chrome-stable && \
-    rm /etc/apt/sources.list.d/google-chrome.list && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* ; \
-    fi
+# Copy all denpendencies from app and engines into tmp/docker to install
+FROM builder AS bundler
 
 WORKDIR $APP_HOME
 
 # Skip installing gem documentation
 RUN mkdir -p /usr/local/etc \
-    && { \
+	&& { \
     echo '---'; \
     echo ':update_sources: true'; \
     echo ':benchmark: false'; \
@@ -80,55 +63,60 @@ RUN mkdir -p /usr/local/etc \
     echo 'gem: --no-ri --no-rdoc'; \
     echo 'install: --no-document'; \
     echo 'update: --no-document'; \
-    } >> /usr/local/etc/gemrc
-
-# Copy all denpendencies from app and engines into tmp/docker to install
-FROM ruby:3.0.6-slim-buster AS bundler
-
-WORKDIR $APP_HOME
-
-RUN ./bin/docker-prepare
+	} >> /usr/local/etc/gemrc
 
 COPY tmp/docker ./
 
 # Install Ruby gems
-RUN gem install bundler && \
-    bundle config set jobs $BUNDLE_JOBS && \
-    bundle config set path $BUNDLE_PATH && \
-    if [ "$BUILD_ENV" = "production" ]; then \
-    bundle config set deployment yes && \
-    bundle config set without 'development test' ; \
-    fi && \
-    bundle install
+RUN bundle install && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+    bundle exec bootsnap precompile --gemfile
 
-# Install JS dependencies
-FROM ruby:3.0.6-slim-buster AS yarn
-
-WORKDIR $APP_HOME
-
-COPY package.json yarn.lock .yarnrc ./
-
-RUN yarn install --network-timeout 100000
 
 # Compile assets
-FROM ruby:3.0.6-slim-buster AS assets
+FROM builder AS assets
+
+# Add Yarn repository
+# Add the PPA (personal package archive) maintained by NodeSource
+# This will have more up-to-date versions of Node.js than the official Debian repositories
+ADD https://dl.yarnpkg.com/debian/pubkey.gpg /tmp/yarn-pubkey.gpg
+RUN set -uex; \
+    apt-get update -qq; \
+    apt-get install -y ca-certificates curl gnupg; \
+    mkdir -p /etc/apt/keyrings; \
+    apt-key add /tmp/yarn-pubkey.gpg && rm /tmp/yarn-pubkey.gpg && \
+    echo "deb http://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list && \
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
+      | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_VERSION.x nodistro main" \
+      > /etc/apt/sources.list.d/nodesource.list && \
+    apt-get update -qq && \
+    apt-get install -y --no-install-recommends nodejs yarn && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY package.json yarn.lock .yarnrc ./
+RUN yarn install
+
+COPY --from=bundler $BUNDLE_PATH $BUNDLE_PATH
+COPY . ./
+
+RUN bundle exec rails i18n:js:export
+RUN bundle exec rails assets:precompile
+RUN yarn run build:docs
+
+# Final image
+FROM builder AS app
 
 WORKDIR $APP_HOME
 
-RUN bundle exec rails i18n:js:export && \
-    bundle exec rails assets:precompile && \
-    yarn run build:docs
+COPY --from=bundler /usr/local/bundle /usr/local/bundle
+COPY --from=assets /tmp/public public
 
-# Copying the app files must be placed after the dependencies setup
-# since the app files always change thus cannot be cached
-FROM ruby:3.0.6-slim-buster AS app
-
-WORKDIR $APP_HOME
+COPY . ./
 
 # Remove tmp/docker in the final image
 RUN rm -rf tmp/docker
-
-COPY . ./
 
 EXPOSE $PORT
 
