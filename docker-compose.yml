@@ -1,4 +1,4 @@
-version: "3.2"
+version: '3.2'
 
 services:
   db:
@@ -6,7 +6,6 @@ services:
     container_name: nimble_survey_web_db
     environment:
       - POSTGRES_DB=nimble_survey_web_production
-      - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
 
@@ -49,9 +48,5 @@ services:
       - RAILS_ENV=production
       - NODE_ENV=production
       - DATABASE_URL=postgres://postgres@db/nimble_survey_web_production
-      - POSTGRES_PASSWORD=postgres
-
-    env_file:
-      - .env.production
 volumes:
   ruby-bundle:
