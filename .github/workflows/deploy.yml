@@ -77,7 +77,7 @@ jobs:
           push: true
           tags: |
             nimble-survey-web:latest-buildx
-            $DOCKER_IMAGE_TAG
+            ${{ env.DOCKER_IMAGE_TAG }}
           cache-from: type=registry,ref=nimble-survey-web:latest-buildx
           cache-to: type=inline,mode=max
 
