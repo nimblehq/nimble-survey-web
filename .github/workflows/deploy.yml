@@ -76,9 +76,8 @@ jobs:
           context: .
           push: true
           tags: |
-            nimble-survey-web:latest-buildx
             ${{ env.DOCKER_IMAGE_TAG }}
-          cache-from: type=registry,ref=nimble-survey-web:latest-buildx
+          cache-from: type=registry,ref=${{ env.DOCKER_IMAGE_TAG }}
           cache-to: type=inline,mode=max
 
       # - name: Build Docker image
