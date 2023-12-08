@@ -48,5 +48,10 @@ services:
       - RAILS_ENV=production
       - NODE_ENV=production
       - DATABASE_URL=postgres://postgres@db/nimble_survey_web_production
+      - ASSET_HOST
+      - DEFAULT_HOST
+      - MAILER_SENDER
+      - RAILS_MASTER_KEY
+
 volumes:
   ruby-bundle:
