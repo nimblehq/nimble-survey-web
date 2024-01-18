@@ -36,12 +36,15 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_branch || github.ref }}
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Set BRANCH_TAG
         uses: nimblehq/branch-tag-action@v1
         with:
           ref: ${{ github.event.workflow_run.head_branch || github.ref }}
 
-      - name: Set HEROKU_APP
+      - name: Set HEROKU_APP env variable
         run: |
           if [[ $BRANCH_TAG = "latest" ]]
           then
@@ -50,14 +53,27 @@ jobs:
             echo "HEROKU_APP=nimble-survey-web-staging" >> $GITHUB_ENV
           fi
 
-      - name: Log in to Docker registry
-        run: echo "$DOCKER_TOKEN" | docker login $DOCKER_REGISTRY --username=$DOCKER_USERNAME --password-stdin
-
-      - name: Build Docker image
+      - name: Set DOCKER_IMAGE_TAG env variable
         run: |
-          bin/docker-prepare
-          docker-compose build
-          docker-compose push web
+          echo "DOCKER_IMAGE_TAG=${{ env.DOCKER_REGISTRY }}/${{ DOCKER_IMAGE }}:${{ BRANCH_TAG }}" >> $GITHUB_ENV
+          echo "MAKE UP DOCKER IMAGE TAG"
+          echo $DOCKER_IMAGE_TAG
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ env.DOCKER_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.DOCKER_IMAGE_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Log in to Heroku container
         run: heroku container:login
