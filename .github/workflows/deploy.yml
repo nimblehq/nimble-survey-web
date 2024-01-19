@@ -36,8 +36,8 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_branch || github.ref }}
 
-      # - name: Set up Docker Buildx
-      #   uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Set BRANCH_TAG
         uses: nimblehq/branch-tag-action@v1
@@ -70,19 +70,14 @@ jobs:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_TOKEN }}
 
-      # - name: Docker build and push
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     context: .
-      #     push: true
-      #     tags: ${{ env.DOCKER_IMAGE_TAG }}
-      #     cache-from: type=gha
-      #     cache-to: type=gha,mode=max
-      - name: Build Docker image
-        run: |
-          bin/docker-prepare
-          docker-compose build
-          docker-compose push web
+      - name: Docker build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.DOCKER_IMAGE_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Log in to Heroku container
         run: heroku container:login
