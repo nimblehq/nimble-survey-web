@@ -1,7 +1,7 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  config.hosts = ['survey-api-staging.nimblehq.co', 'survey-api.nimblehq.co']
+  config.hosts = [ENV.fetch('APP_HOST', '')]
 
   # Settings specified here will take precedence over those in config/application.rb.
 
